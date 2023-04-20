@@ -33,7 +33,7 @@ public class TestController {
 
     @GetMapping("/hello1")
     public Entity test1(Integer userId) {
-        Entity entity = new Entity();
+        Entity entity = null;
         entity.setUserId(userId);
         entity.setName("123");
 
