@@ -36,6 +36,9 @@ public class TestController {
         Entity entity = null;
         entity.setUserId(userId);
         entity.setName("123");
+        Integer a = 100;
+        Integer b = 0;
+        System.out.println(a/b);
 
         return entity;
     }
