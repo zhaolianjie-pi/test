@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.game.core.dao.CitySeatDao">
+    <resultMap id="BoundingBoxResultMap" type="com.game.core.entity.CitySeat">
+        <id column="id" property="id"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id
+        ,province,city,latitude,longitude,create_time,update_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="BoundingBoxResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_citySeat
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.game.core.entity.BoundingBoxDO">
+        insert into t_citySeat (province,city,latitude,longitude,create_time,update_time)
+        values (#{province}, #{city}, #{latitude}, #{longitude}, now(), now())
+    </insert>
+
+    <insert id="insertBatch">
+        insert into t_citySeat
+        (province,city,latitude,longitude,create_time,update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{province}, #{city}, #{latitude}, #{longitude}, now(), now())
+        </foreach>
+
+    </insert>
+
+
+
+    <update id="update" parameterType="com.game.core.entity.BoundingBoxDO">
+        update t_citySeat
+        <set>
+            <if test="province != null">
+                province = #{province},
+            </if>
+
+            <if test="city != null">
+                city = #{city},
+            </if>
+
+            <if test="latitude != null">
+                latitude = #{latitude},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude},
+            </if>
+
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+
+</mapper>

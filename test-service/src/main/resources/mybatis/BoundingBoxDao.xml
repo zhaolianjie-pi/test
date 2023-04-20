@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.game.core.dao.BoundingBoxDao">
+    <resultMap id="BoundingBoxResultMap" type="com.game.core.entity.BoundingBoxDO">
+        <id column="id" property="id"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="southLatitude" property="southLatitude"/>
+        <result column="northLatitude" property="northLatitude"/>
+        <result column="westLongitude" property="westLongitude"/>
+        <result column="eastLongitude" property="eastLongitude"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id
+        ,province,city,southLatitude,northLatitude,westLongitude,eastLongitude,create_time,update_time
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="BoundingBoxResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_boundingBox
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.game.core.entity.BoundingBoxDO">
+        insert into t_boundingBox (province,city,southLatitude,northLatitude,westLongitude,eastLongitude,create_time,update_time)
+        values (#{province}, #{city}, #{southLatitude}, #{northLatitude}, #{westLongitude}, #{eastLongitude}, now(), now())
+    </insert>
+
+    <insert id="insertBatch">
+        insert into t_boundingBox
+        (province,city,southLatitude,northLatitude,westLongitude,eastLongitude,create_time,update_time)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{province}, #{city}, #{southLatitude}, #{northLatitude}, #{westLongitude}, #{eastLongitude}, now(), now())
+        </foreach>
+
+    </insert>
+
+    <select id="findBoundingBox" parameterType="com.game.core.entity.BoundingBoxQuery">
+        select
+        <include refid="Base_Column_List"/>
+        from t_boundingBox
+        <where>
+            southLatitude &lt;= #{latitude}
+            and #{latitude} &lt;= northLatitude
+            and westLongitude &lt;= #{longitude}
+            and #{longitude} &lt;= eastLongitude
+        </where>
+    </select>
+
+
+    <update id="update" parameterType="com.game.core.entity.BoundingBoxDO">
+        update t_boundingBox
+        <set>
+            <if test="province != null">
+                province = #{province},
+            </if>
+
+            <if test="city != null">
+                city = #{city},
+            </if>
+
+            <if test="southLatitude != null">
+                southLatitude = #{southLatitude},
+            </if>
+            <if test="northLatitude != null">
+                northLatitude = #{northLatitude},
+            </if>
+            <if test="westLongitude != null">
+                westLongitude = #{westLongitude},
+            </if>
+            <if test="eastLongitude != null">
+                eastLongitude = #{eastLongitude},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+
+</mapper>

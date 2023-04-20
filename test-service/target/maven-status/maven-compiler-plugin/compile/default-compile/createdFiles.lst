@@ -1,0 +1,4 @@
+com\game\core\configurer\MybatisPlusConfig.class
+com\game\core\dao\PainDao.class
+com\game\core\service\impl\PainServiceImpl.class
+com\game\core\service\Painservice.class

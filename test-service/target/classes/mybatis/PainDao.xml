@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.game.core.dao.PainDao">
+    <resultMap id="PainResultMap" type="com.game.core.entity.Pain">
+        <id column="id" property="id"/>
+        <result column="open_id" property="openId"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="status" property="status"/>
+        <result column="floor" property="floor"/>
+        <result column="message_id" property="messageId"/>
+        <result column="name" property="name"/>
+        <result column="depart_ment_name" property="departMentName"/>
+        <result column="pindex" property="pindex"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id
+        ,open_id,start_time,end_time,status,floor,message_id,name,depart_ment_name,`pindex`
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Integer" resultMap="PainResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pain
+        <where>
+            id = #{id}
+        </where>
+    </select>
+
+    <select id="findAllByFloor" parameterType="java.lang.Integer" resultMap="PainResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pain
+        <where>
+            floor = #{floor}
+        </where>
+    </select>
+
+    <select id="findBackIndex" resultMap="PainResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pain
+        <where>
+            pindex >= #{pindex}
+            and status = 0
+            order by pindex asc
+            limit #{limit}
+        </where>
+    </select>
+
+    <select id="findListAsc" parameterType="java.lang.Integer" resultMap="PainResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pain
+        <where>
+            status = 0
+            order by pindex asc
+            limit #{limit}
+        </where>
+    </select>
+
+    <update id="updateByOpenId">
+        update t_pain set open_id = #{robOpenId},
+        name = #{robName} where open_id = #{oldOpenId}
+    </update>
+
+    <select id="findByOpenId" parameterType="java.lang.String" resultMap="PainResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pain
+        <where>
+            open_id = #{openId}
+        </where>
+    </select>
+
+    <delete id="deleteAllByFloor">
+        delete
+        from t_pain
+        where floor = #{floor}
+    </delete>
+
+    <select id="findByIndex" parameterType="java.lang.String" resultMap="PainResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pain
+        <where>
+            pindex = #{pindex}
+        </where>
+    </select>
+
+    <select id="findAll" resultMap="PainResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_pain
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from t_pain
+        <where>
+            id = #{id}
+        </where>
+    </delete>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.game.core.entity.Pain">
+        insert into t_pain (open_id, start_time, end_time, status, floor, message_id, name, depart_ment_name, pindex)
+        values (#{openId}, #{startTime}, #{endTime}, #{status}, #{floor}, #{messageId}, #{name}, #{departMentName},#{pindex})
+    </insert>
+
+    <update id="waitPain" parameterType="com.game.core.entity.Pain">
+        UPDATE t_pain set pindex = ((SELECT selected_value FROM (SELECT MAX(pindex) AS selected_value FROM t_pain) AS
+        sub_selected_value) + 1)
+        <where>
+            open_id = #{openId}
+        </where>
+    </update>
+
+    <update id="update" parameterType="com.game.core.entity.Pain">
+        update t_pain
+        <set>
+            <if test="openId != null">
+                open_id = #{openId},
+            </if>
+
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="floor != null">
+                floor = #{floor},
+            </if>
+            <if test="messageId != null">
+                message_id = #{messageId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="departMentName != null">
+                depart_ment_name = #{departMentName},
+            </if>
+            <if test="pindex != null">
+                pindex = #{pindex},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+
+</mapper>

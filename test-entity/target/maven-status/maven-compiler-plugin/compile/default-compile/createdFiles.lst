@@ -1,0 +1,5 @@
+com\game\core\entity\Pain.class
+com\game\core\entity\Entity.class
+com\game\core\entity\Result.class
+com\game\core\entity\UserUpdateVO.class
+com\game\core\entity\ResultStatus.class
