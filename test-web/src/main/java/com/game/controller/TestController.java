@@ -33,14 +33,14 @@ public class TestController {
 
     @GetMapping("/hello1")
     public Entity test1(Integer userId) {
-        Entity entity = null;
-        entity.setUserId(userId);
-        entity.setName("123");
+        Entity entity1 = null;
+        entity1.setUserId(userId);
+        entity1.setName("123");
         Integer a = 100;
         Integer b = 0;
         System.out.println(a/b);
 
-        return entity;
+        return entity1;
     }
 
     @PostMapping("/hello2")
