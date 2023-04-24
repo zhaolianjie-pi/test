@@ -52,7 +52,7 @@ public class RegionalBlocking {
         double latNum = boundingBox.getLatitudeSize();
         double longNum = boundingBox.getLongitudeSize();
         double latOneNum = latNum / blockNum;
-        BigDecimal valueDecimal = new BigDecimal(latOneNum);
+        BigDecimal valueDecimal = new BigDecimal(String.valueOf(latOneNum));
         latOneNum = valueDecimal.setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
 
         double longOneNum = longNum / blockNum;
@@ -139,7 +139,7 @@ public class RegionalBlocking {
 //        }
 
         //System.out.println(getBoundingBoxConfig("C:\\Users\\123456\\Desktop\\区域划分.xls"));
-         buildBoundingBoxDO();
+        buildBoundingBoxDO();
 
 
     }
