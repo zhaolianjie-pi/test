@@ -5,12 +5,9 @@ import com.game.core.entity.Entity;
 import com.game.core.entity.Pain;
 import com.game.core.service.Painservice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
- import java.util.HashMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,7 +30,7 @@ public class TestController {
 
     @GetMapping("/hello1")
     public Entity test1(Integer userId) {
-        Entity entity1 = new Entity();
+        Entity entity1 = null;
         entity1.setUserId(userId);
         entity1.setName("123");
         Integer a = 100;
